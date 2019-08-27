@@ -1,0 +1,25 @@
+<html>
+    <body>
+        <h1> Catalog App </h1>
+
+        <table style="width: 50%">
+            <tr>
+                <th>Categories</th>
+                <th>Latest Items</th>
+            </tr>
+            <tr>
+                <td>
+                        {% for i in category %}
+                        {{i.name}}</br>
+                        {% endfor %}
+                </td>
+                <td>
+                        {% for i in items %}
+                        {{i.name}}</br>
+                        {% endfor %}
+                </td>
+            </tr>
+
+    </table>
+    </body>
+</html>
