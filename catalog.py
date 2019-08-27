@@ -22,33 +22,49 @@ def showCategories():
 # Create a new category
 @app.route('/category/new')
 def newCategory():
-   #category = session.query(Categories)
-   #items = session.query(Items)
-   return "Page for new category"
-   #return render_template('categories.html', category = category, items = items)
+   category = session.query(Categories)
+   return render_template('newCategory.html', category = category)
 
 # Edit a category
 @app.route('/category/<int:categories_id>/edit')
 def editCategory():
-   #category = session.query(Categories)
-   #items = session.query(Items)
-   return "Page for edit a category"
-   #return render_template('categories.html', category = category, items = items)
-
+   category = session.query(Categories)
+   return render_template('editCategory.html', category = category)
 
 # Delete a category
-
+@app.route('/category/<int:categories_id>/delete')
+def deleteCategory():
+   category = session.query(Categories)
+   return render_template('deleteCategory.html', category = category)
 
 # Show a category item
-
+@app.route('/category/<int:categories_id>/item')
+@app.route('/category/<int:categories_id>/')
+def showCategoryItem():
+   category = session.query(Categories)
+   items = session.query(Items)
+   return render_template('showCategoryItem.html', category = category, items = items)
 
 # Create a new category item
-
+@app.route('/category/<int:categories_id>/item/new')
+def createCategoryItem():
+   category = session.query(Categories)
+   items = session.query(Items)
+   return render_template('createCategoryItem.html', category = category, items = items)
 
 # Edit a category item
-
+@app.route('/category/<int:categories_id>/item/<int:item_id>/edit')
+def editCategoryItem():
+   category = session.query(Categories)
+   items = session.query(Items)
+   return render_template('editCategoryItem.html', category = category, items = items)
 
 # Delete a category item
+@app.route('/category/<int:categories_id>/item/<int:item_id>/delete')
+def deleteCategoryItem():
+   category = session.query(Categories)
+   items = session.query(Items)
+   return render_template('deleteCategoryItem.html', category = category, items = items)
 
 
 
