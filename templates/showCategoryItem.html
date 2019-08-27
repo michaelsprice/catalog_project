@@ -1,0 +1,21 @@
+<html>
+    <body>
+        <h1>{{ category.name }}</h1> 
+
+            <a href='#'> Create New {{ category.name }} Item </a>
+    <div>
+        <h2>Current Items</h2>
+                {% for i in items %}
+                    {% if i.category_id == category_id %}
+                        {{i.name}}</br>
+                        {{i.description}}</br>
+                    
+                        <a href='#'> Edit </a> </br>
+                        <a href='#'> Delete </a></br></br>
+                    {% endif %}
+                {% endfor %}
+
+    </div>      
+
+    </body>
+</html>
