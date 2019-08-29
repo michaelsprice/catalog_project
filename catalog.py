@@ -28,25 +28,22 @@ def newCategory():
 # Edit a category
 @app.route('/category/<int:categories_id>/edit')
 def editCategory(categories_id):
-   category = session.query(Categories).filter_by(id=categories_id).one()
-   return render_template('editCategory.html', category = category)
+   categoryToEdit = session.query(Categories).filter_by(id=categories_id).one()
+   return render_template('editCategory.html', category = categoryToEdit)
 
 # Delete a category
 @app.route('/category/<int:categories_id>/delete')
 def deleteCategory(categories_id):
-   category = session.query(Categories).filter_by(id=categories_id).one()
-   return render_template('deleteCategory.html', category = category)
+   categoryToDelete = session.query(Categories).filter_by(id=categories_id).one()
+   return render_template('deleteCategory.html', category = categoryToDelete)
 
 # Show a category item
-
-# ***CURRENTLY NOT WORKING, NEED TO SHOW THE CURRENT ITEMS***
-
-@app.route('/category/<int:categories_id>/item')
+@app.route('/category/<int:categories_id>/items')
 @app.route('/category/<int:categories_id>/')
 def showCategoryItem(categories_id):
-   category = session.query(Categories).filter_by(id=categories_id).one()
-   items = session.query(Items)
-   return render_template('showCategoryItem.html', category = category, items = items)
+   categoryToShow = session.query(Categories).filter_by(id=categories_id).one()
+   itemsToShow = session.query(Items).filter_by(category_id = categories_id)
+   return render_template('showCategoryItem.html', category = categoryToShow, items = itemsToShow)
 
 # Create a new category item
 @app.route('/category/<int:categories_id>/item/new')
@@ -56,24 +53,18 @@ def createCategoryItem(categories_id):
    return render_template('createCategoryItem.html', category = category, items = items)
 
 # Edit a category item
-
-# ***CURRENTLY NOT DISPLAYING CORRECT ITEM, NEED TO FIX***
-
-@app.route('/category/<int:categories_id>/item/<int:item_id>/edit')
+@app.route('/category/<int:categories_id>/<int:item_id>/edit')
 def editCategoryItem(categories_id, item_id):
    category = session.query(Categories).filter_by(id=categories_id).one()
-   items = session.query(Items).filter_by(id=categories_id).one()
-   return render_template('editCategoryItem.html', category = category, items = items)
+   editedItem = session.query(Items).filter_by(id = item_id).one()
+   return render_template('editCategoryItem.html', category = category, items = editedItem)
 
 # Delete a category item
-
-# ***CURRENTLY NOT DISPLAYING CORRECT ITEM, NEED TO FIX***
-
-@app.route('/category/<int:categories_id>/item/<int:item_id>/delete')
+@app.route('/category/<int:categories_id>/<int:item_id>/delete')
 def deleteCategoryItem(categories_id, item_id):
-   category = session.query(Categories)
-   items = session.query(Items).filter_by(id=categories_id).one()
-   return render_template('deleteCategoryItem.html', category = category, items = items)
+   category = session.query(Categories).filter_by(id=categories_id).one()
+   itemToDelete = session.query(Items).filter_by(id=item_id).one()
+   return render_template('deleteCategoryItem.html', category = category, items = itemToDelete)
 
 
 
