@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -19,25 +19,7 @@ def showCategories():
    items = session.query(Items)
    return render_template('categories.html', category = category, items = items)
 
-# Create a new category
-@app.route('/category/new')
-def newCategory():
-   category = session.query(Categories)
-   return render_template('newCategory.html', category = category)
-
-# Edit a category
-@app.route('/category/<int:categories_id>/edit')
-def editCategory(categories_id):
-   categoryToEdit = session.query(Categories).filter_by(id=categories_id).one()
-   return render_template('editCategory.html', category = categoryToEdit)
-
-# Delete a category
-@app.route('/category/<int:categories_id>/delete')
-def deleteCategory(categories_id):
-   categoryToDelete = session.query(Categories).filter_by(id=categories_id).one()
-   return render_template('deleteCategory.html', category = categoryToDelete)
-
-# Show a category item
+# Show a category items
 @app.route('/category/<int:categories_id>/items')
 @app.route('/category/<int:categories_id>/')
 def showCategoryItem(categories_id):
