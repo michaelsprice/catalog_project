@@ -2,7 +2,7 @@
     <body>
         <h1>{{ category.name }}</h1> 
 
-            <a href='#'> Create New {{ category.name }} Item </a>
+            <a href='{{url_for('createCategoryItem', categories_id = category.id)}}'> Create New {{ category.name }} Item </a>
     <div>
         <h2>Current Items for {{category.name}}:</h2>
                 {% for i in items %}
