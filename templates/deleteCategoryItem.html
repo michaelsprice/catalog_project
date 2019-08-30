@@ -2,11 +2,10 @@
     <body>
         <h1> Are you sure you want to delete {{items.name}}? </h1>
         
-
         <form action = "#" method = 'post'>
                 <input type='submit' value = 'Yes, Delete'>
         </br></br>
-                <a href='#'> Cancel </a>
+            <a href='{{url_for('showCategoryItem', categories_id = category.id)}}'> Cancel </a> 
 
         </form>
     </body>
