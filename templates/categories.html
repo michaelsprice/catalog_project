@@ -10,7 +10,8 @@
             <tr>
                 <td>
                         {% for i in category %}
-                        {{i.name}}</br>
+                        <a href='{{url_for('showCategoryItem', categories_id = i.id)}}'> {{i.name}} </a> 
+                        </br>
                         {% endfor %}
                 </td>
                 <td>
