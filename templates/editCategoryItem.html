@@ -1,25 +1,22 @@
 <html>
     <body>
-        <h1> Edit {{items.name}} </h1>
+        <h1> Edit **PUT ITEM NAME HERE** </h1>
 
-        <form action = "#" method = 'post'>
+        <form action = "{{ url_for('editCategoryItem', categories_id = 
+        categories_id, item_id = i.id)}} " method = 'POST'>
 
             <p>Name:</p>
-                <input type='text' size='30' name='name' placeholder = '{{items.name}}'>
+                <input type='text' size='30' name='name' placeholder = '{{i.name}}'>
                 
             <p>Description</p>
-                <input type='text' size='100' name='Description' placeholder = '{{items.description}}'>
+                <input type='text' size='100' name='Description' placeholder = '{{i.description}}'>
 
-            <p>Category</p>
-            <select>
-                    <option value="category">{{category.name}}</option>
 
-                  </select>
 
         </br></br>    
             <input type='submit' value = 'Submit'>
-            <a href='{{url_for('showCategoryItem', categories_id = category.id)}}'> Cancel </a> 
 
+            ***ADD A CANCEL LINK HERE***
 
         </form>
     </body>
