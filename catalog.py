@@ -33,6 +33,7 @@ def showCategoryItem(categories_id):
 @app.route('/category/<int:categories_id>/item/new', methods=['GET','POST'])
 def createCategoryItem(categories_id):
    theCategory = session.query(Categories).filter_by(id=categories_id).one()
+
    if request.method == 'POST':
       newItem = theCategory(name = request.form['name'], description = request.form['description'], 
          categories_id = theCategory.id)
@@ -50,11 +51,27 @@ def createCategoryItem(categories_id):
 #   return render_template('createCategoryItem.html', category = category, items = items)
 
 # Edit a category item
-@app.route('/category/<int:categories_id>/<int:item_id>/edit')
+@app.route('/category/<int:categories_id>/<int:item_id>/edit', methods = ['GET', 'POST'])
 def editCategoryItem(categories_id, item_id):
-   category = session.query(Categories).filter_by(id=categories_id).one()
    editedItem = session.query(Items).filter_by(id = item_id).one()
-   return render_template('editCategoryItem.html', category = category, items = editedItem)
+   if request.method == 'POST':
+      if request.form['name']:
+         editedItem.name = request.form['name']
+# mpTODO Currently the next 2 lines are wrong - they are updating the name instead of the description
+      if request.form['Description']:
+         editedItem.name = request.form['Description']
+      session.add(editedItem)
+      session.commit()
+      return redirect(url_for('showCategoryItem', categories_id = categories_id))
+   else:
+      return render_template('editCategoryItem.html', categories_id = categories_id, item_id = item_id , i = editedItem)
+
+# Edit a category item BACKUP
+#@app.route('/category/<int:categories_id>/<int:item_id>/edit', methods = ['GET', 'POST'])
+#def editCategoryItem(categories_id, item_id):
+#   category = session.query(Categories).filter_by(id=categories_id).one()
+#   editedItem = session.query(Items).filter_by(id = item_id).one()
+#   return render_template('editCategoryItem.html', category = category, items = editedItem)
 
 # Delete a category item
 @app.route('/category/<int:categories_id>/<int:item_id>/delete')
