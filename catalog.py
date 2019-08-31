@@ -63,6 +63,13 @@ def deleteCategoryItem(categories_id, item_id):
    itemToDelete = session.query(Items).filter_by(id=item_id).one()
    return render_template('deleteCategoryItem.html', category = category, items = itemToDelete)
 
+# Show an item and description
+@app.route('/category/<int:categories_id>/<int:item_id>/description')
+def showCategoryItemDescription(categories_id, item_id):
+   category = session.query(Categories).filter_by(id=categories_id).one()
+   itemToDelete = session.query(Items).filter_by(id=item_id).one()
+   return render_template('showCategoryItemDescription.html', category = category, items = itemToDelete)
+
 
 
 if __name__ == '__main__':
