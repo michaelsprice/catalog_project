@@ -3,7 +3,17 @@
         <h1>{{ items.name }}</h1> 
         Description: {{items.description}}
     </br></br></br>
-    <a href='{{url_for('showCategoryItem', categories_id = 
-    category.id)}}'> Back to all items </a> 
+
+
+<a href='{{url_for('editCategoryItem', categories_id = category.id, 
+item_id = items.id)}}'> Edit </a> 
+</br>    
+<a href='{{url_for('deleteCategoryItem', categories_id = category.id, 
+item_id = items.id)}}'> Delete </a> 
+</br>    
+</br>   
+
+<a href='{{url_for('showCategoryItem', categories_id = 
+category.id)}}'> Back to all items </a> 
     </body>
 </html>
