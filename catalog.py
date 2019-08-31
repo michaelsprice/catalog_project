@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, request, redirect
 app = Flask(__name__)
 
 from sqlalchemy import create_engine
@@ -10,6 +10,8 @@ Base.metadata.bind = engine
 
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
+
+
 
 # Show all categories
 @app.route('/')
@@ -28,11 +30,24 @@ def showCategoryItem(categories_id):
    return render_template('showCategoryItem.html', category = categoryToShow, items = itemsToShow)
 
 # Create a new category item
-@app.route('/category/<int:categories_id>/item/new')
+@app.route('/category/<int:categories_id>/item/new', methods=['GET','POST'])
 def createCategoryItem(categories_id):
-   category = session.query(Categories).filter_by(id=categories_id).one()
-   items = session.query(Items)
-   return render_template('createCategoryItem.html', category = category, items = items)
+   theCategory = session.query(Categories).filter_by(id=categories_id).one()
+   if request.method == 'POST':
+      newItem = theCategory(name = request.form['name'], description = request.form['description'], 
+         categories_id = theCategory.id)
+      session.add(newItem)
+      session.commit()
+      return redirect(url_for('showCategoryItem', categories_id = categories_id))
+   else:
+      return render_template('createCategoryItem.html', categories_id = categories_id) 
+
+# Create a new category item BACKUP
+# @app.route('/category/<int:categories_id>/item/new', methods=['GET','POST'])
+# def createCategoryItem(categories_id):
+#   category = session.query(Categories).filter_by(id=categories_id).one()
+#   items = session.query(Items)
+#   return render_template('createCategoryItem.html', category = category, items = items)
 
 # Edit a category item
 @app.route('/category/<int:categories_id>/<int:item_id>/edit')
