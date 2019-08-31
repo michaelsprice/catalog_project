@@ -59,11 +59,15 @@ def editCategoryItem(categories_id, item_id):
       return render_template('editCategoryItem.html', categories_id = categories_id, item_id = item_id , i = editedItem)
 
 # Delete a category item
-@app.route('/category/<int:categories_id>/<int:item_id>/delete')
+@app.route('/category/<int:categories_id>/<int:item_id>/delete', methods = ['GET', 'POST'])
 def deleteCategoryItem(categories_id, item_id):
-   category = session.query(Categories).filter_by(id=categories_id).one()
-   itemToDelete = session.query(Items).filter_by(id=item_id).one()
-   return render_template('deleteCategoryItem.html', category = category, items = itemToDelete)
+   itemToDelete = session.query(Items).filter_by(id = item_id).one()
+   if request.method == 'POST':
+      session.delete(itemToDelete)
+      session.commit()
+      return redirect(url_for('showCategoryItem', categories_id = categories_id))
+   else:
+      return render_template('deleteCategoryItem.html', categories_id = categories_id, i = itemToDelete)
 
 # Show an item and description
 @app.route('/category/<int:categories_id>/<int:item_id>/description')
