@@ -33,22 +33,14 @@ def showCategoryItem(categories_id):
 @app.route('/category/<int:categories_id>/item/new', methods=['GET','POST'])
 def createCategoryItem(categories_id):
    theCategory = session.query(Categories).filter_by(id=categories_id).one()
-
    if request.method == 'POST':
-      newItem = theCategory(name = request.form['name'], description = request.form['description'], 
-         categories_id = theCategory.id)
+      newItem = Items(name = request.form['name'], description = request.form['description'], 
+         category_id = theCategory.id)
       session.add(newItem)
       session.commit()
       return redirect(url_for('showCategoryItem', categories_id = categories_id))
    else:
       return render_template('createCategoryItem.html', categories_id = categories_id) 
-
-# Create a new category item BACKUP
-# @app.route('/category/<int:categories_id>/item/new', methods=['GET','POST'])
-# def createCategoryItem(categories_id):
-#   category = session.query(Categories).filter_by(id=categories_id).one()
-#   items = session.query(Items)
-#   return render_template('createCategoryItem.html', category = category, items = items)
 
 # Edit a category item
 @app.route('/category/<int:categories_id>/<int:item_id>/edit', methods = ['GET', 'POST'])
@@ -65,13 +57,6 @@ def editCategoryItem(categories_id, item_id):
       return redirect(url_for('showCategoryItem', categories_id = categories_id))
    else:
       return render_template('editCategoryItem.html', categories_id = categories_id, item_id = item_id , i = editedItem)
-
-# Edit a category item BACKUP
-#@app.route('/category/<int:categories_id>/<int:item_id>/edit', methods = ['GET', 'POST'])
-#def editCategoryItem(categories_id, item_id):
-#   category = session.query(Categories).filter_by(id=categories_id).one()
-#   editedItem = session.query(Items).filter_by(id = item_id).one()
-#   return render_template('editCategoryItem.html', category = category, items = editedItem)
 
 # Delete a category item
 @app.route('/category/<int:categories_id>/<int:item_id>/delete')
