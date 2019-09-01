@@ -1,6 +1,6 @@
 <html>
     <body>
-        <h1> Edit **PUT ITEM NAME HERE** </h1>
+        <h1> Edit {{i.name}} </h1>
 
         <form action = "{{ url_for('editCategoryItem', categories_id = 
         categories_id, item_id = i.id)}} " method = 'POST'>
@@ -10,13 +10,10 @@
                 
             <p>Description</p>
                 <input type='text' size='100' name='Description' placeholder = '{{i.description}}'>
-
-
-
         </br></br>    
             <input type='submit' value = 'Submit'>
 
-            ***ADD A CANCEL LINK HERE***
+            <a href='{{url_for('showCategoryItem', items_id = i.id, categories_id = i.category_id)}}'> Cancel </a> 
 
         </form>
     </body>
