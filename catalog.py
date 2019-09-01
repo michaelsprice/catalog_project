@@ -49,9 +49,8 @@ def editCategoryItem(categories_id, item_id):
    if request.method == 'POST':
       if request.form['name']:
          editedItem.name = request.form['name']
-# mpTODO Currently the next 2 lines are wrong - they are updating the name instead of the description
       if request.form['Description']:
-         editedItem.name = request.form['Description']
+         editedItem.description = request.form['Description']
       session.add(editedItem)
       session.commit()
       return redirect(url_for('showCategoryItem', categories_id = categories_id))
