@@ -1,6 +1,10 @@
 <html>
+    <head>
+        <link rel=stylesheet type=text/css href="{{url_for('static', filename='styles.css')}}">
+    </head>
+            
     <body>
-        <h1>{{ category.name }}</h1> 
+        <h1>*** {{ category.name }} ***</h1> 
 
             <a href='{{url_for('createCategoryItem', categories_id = category.id)}}'> Create New {{ category.name }} Item </a>
     <div>
@@ -13,7 +17,7 @@
                 {% endfor %}
     </div>     
 </br>
-    <a href='{{url_for('showCategories', categories_id = 
+    <a class="backtoallcategories" href='{{url_for('showCategories', categories_id = 
     category.id)}}'> Back to all Categories </a>  
     </body>
 </html>
