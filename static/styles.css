@@ -9,12 +9,11 @@ h1 {
     border-style: groove;
     border-radius: 50px;
     font-size: 40px;
-
 }
 h3 {
     color: teal
 }
-a.backtoallcategories{
+a.backtoall{
     padding: 5px;
     border: 2px solid gray;
 }
