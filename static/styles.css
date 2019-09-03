@@ -9,11 +9,24 @@ h1 {
     border-style: groove;
     border-radius: 50px;
     font-size: 40px;
+    font-variant: small-caps;
 }
 h3 {
     color: teal
 }
-a.backtoall{
+a.backtoall {
     padding: 5px;
     border: 2px solid gray;
+}
+button {
+    background-color: #4CAF50;
+    border-radius: 12px;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
