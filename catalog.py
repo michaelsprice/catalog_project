@@ -157,6 +157,11 @@ def gdisconnect():
         return response
 
 
+# Logout page
+@app.route('/logout')
+def showLogout():
+    return render_template('logout.html')
+
 # JSON API's to view the catalog items information
 @app.route('/category/<int:categories_id>/items/JSON')
 def CategoryItemsJSON(categories_id):
