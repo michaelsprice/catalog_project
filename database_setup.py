@@ -7,11 +7,12 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+
 class Categories(Base):
     __tablename__ = 'categories'
-    
-    id = Column(Integer, primary_key = True)
-    name = Column(String(250), nullable = False)
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
 
     @property
     def serialize(self):
@@ -21,11 +22,12 @@ class Categories(Base):
             'id': self.id,
         }
 
+
 class Items(Base):
     __tablename__ = 'items'
-    
-    name = Column(String(80), nullable = False)
-    id = Column(Integer, primary_key = True)
+
+    name = Column(String(80), nullable=False)
+    id = Column(Integer, primary_key=True)
     description = Column(String(250))
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship(Categories)
@@ -39,6 +41,7 @@ class Items(Base):
             'description': self.description,
         }
 
-# Keep these as the bottom 2 lines!! 
+
+# Keep these as the bottom 2 lines!!
 engine = create_engine('sqlite:///catalog.db')
 Base.metadata.create_all(engine)
