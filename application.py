@@ -10,7 +10,8 @@ from flask import session as login_session
 from database_setup import Base, Categories, Items
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
-from flask import Flask, render_template, url_for, request, redirect, jsonify
+from flask import Flask, render_template, url_for, request, redirect, \
+    jsonify, flash
 from time import sleep
 app = Flask(__name__)
 
@@ -129,6 +130,8 @@ def gconnect():
 # login_session
 @app.route('/gdisconnect')
 def gdisconnect():
+    category = session.query(Categories)
+    items = session.query(Items)
     access_token = login_session.get('access_token')
     if access_token is None:
         print ('Access Token is None')
@@ -151,11 +154,12 @@ def gdisconnect():
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-        response = make_response(json.dumps('Successfully disconnected.'), 200)
-        response.headers['Content-Type'] = 'application/json'
-        # return response
-        return (response)
-
+        flash("Successfully logged out")
+        return redirect(
+            url_for(
+                'showCategories',
+                category=category,
+                items=items))
     else:
         response = make_response(
             json.dumps(
@@ -285,7 +289,3 @@ if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host='0.0.0.0', port=8000)
-
-# Client ID:
-# 82000407646-imq859iqr2ete54ibao2b3fmvprifvfm.apps.googleusercontent.com
-# Client Secret: 4A8OZZihJ7xTLDgEebC5JPjY
