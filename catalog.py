@@ -11,6 +11,7 @@ from database_setup import Base, Categories, Items
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from flask import Flask, render_template, url_for, request, redirect, jsonify
+from time import sleep
 app = Flask(__name__)
 
 
@@ -128,39 +129,35 @@ def gconnect():
 # login_session
 @app.route('/gdisconnect')
 def gdisconnect():
-    credentials = login_session.get('credentials')
-    if credentials is None:
-        response = make_response(
-            json.dumps('Current user not connected.'), 401)
+    access_token = login_session.get('access_token')
+    if access_token is None:
+        print ('Access Token is None')
+        response = make_response(json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    access_token = credentials.access_token
-    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % access_token
+    print ('In gdisconnect access token is %s'), access_token
+    print ('User name is: ')
+    print (login_session['username'])
+    url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
+    print ('result is ')
+    print (result)
     if result['status'] == '200':
-        del login_session['credentials']
+        del login_session['access_token']
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
         del login_session['picture']
-
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
-        return response
+        #return response
+        return (response)
+ 
     else:
-        response = make_response(
-            json.dumps(
-                'Failed to revoke token for given user.',
-                400))
+        response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
         return response
-
-
-# Logout page
-@app.route('/logout')
-def showLogout():
-    return render_template('logout.html')
 
 # JSON API's to view the catalog items information
 @app.route('/category/<int:categories_id>/items/JSON')
