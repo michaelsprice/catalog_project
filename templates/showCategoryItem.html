@@ -12,22 +12,20 @@
                 {% for i in items %}
                 <a href='{{url_for('showCategoryItemDescription', 
                 categories_id = category.id, item_id = i.id)}}'> {{i.name}} </a>
-
-                        </br>
+                </br>
                 {% endfor %}
     </div>     
 </br>
-    <a class="box" href='{{url_for('showCategories', categories_id = 
-    category.id)}}'> Back to all Categories </a>  
+            <a class="box" href='{{url_for('showCategories', categories_id = 
+            category.id)}}'> Back to all Categories </a>  
 </br></br></br>
 
-    <a class="box" href='{{url_for('showLogin')}}'> Click to login </a> 
+            <a class="box" href='{{url_for('showLogin')}}'> Click to login </a> 
 </br></br></br>
-    <a class="box" href='{{url_for('CategoryItemsJSON', 
+            <a class="box" href='{{url_for('CategoryItemsJSON', 
                 categories_id = category.id, item_id = items.id)}}'> Click to see JSON output </a>
 
 </br></br></br>
-
 
 
     </body>
