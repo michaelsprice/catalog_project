@@ -4,6 +4,18 @@
     </head>
     <body>
         <h1> Catalog App </h1>
+
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+        <ul>
+            {% for message in messages %}
+                <li> <strong> {{ message }} </strong></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
             <h3>Categories (select one to see the items)</h3>
                 <p>{% for i in category %}
                 <a href='{{url_for('showCategoryItem', categories_id = i.id)}}'> {{i.name}} </a> 
