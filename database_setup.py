@@ -7,12 +7,21 @@ from sqlalchemy import create_engine
 
 Base = declarative_base()
 
+class User(Base):
+    __tablename__ = 'user'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(250), nullable=False)
+    email = Column(Integer, primary_key=True)
+    picture = Column(String(250))
 
 class Categories(Base):
     __tablename__ = 'categories'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
@@ -31,6 +40,8 @@ class Items(Base):
     description = Column(String(250))
     category_id = Column(Integer, ForeignKey('categories.id'))
     category = relationship(Categories)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    user = relationship(User)
 
     @property
     def serialize(self):
