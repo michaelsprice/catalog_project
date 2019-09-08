@@ -9,7 +9,11 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # Create dummy user
-User1 = User(id=1, name="Cory Chenault", email = "CoryJChenault@jourrapide.com", picture='https://pbs.twimg.com/profile_images/2671170543/18debd694829ed78203a5a36dd364160_400x400.png')
+User1 = User(
+    id=1,
+    name="Cory Chenault",
+    email="CoryJChenault@jourrapide.com",
+    picture='https://pbs.twimg.com/profile_images/2671170543/18debd694829ed78203a5a36dd364160_400x400.png')
 session.add(User1)
 session.commit()
 
@@ -166,7 +170,7 @@ session.add(category8)
 session.commit()
 
 categoryItem15 = Items(
-    user_id=1, 
+    user_id=1,
     name="Skates",
     description="Put em on your feet.",
     category=category8)
@@ -174,7 +178,7 @@ session.add(categoryItem15)
 session.commit()
 
 categoryItem16 = Items(
-    user_id=1, 
+    user_id=1,
     name="Skate strings",
     description="Keeps them tight around your feet.",
     category=category8)
@@ -187,7 +191,7 @@ session.add(category9)
 session.commit()
 
 categoryItem17 = Items(
-    user_id=1, 
+    user_id=1,
     name="Puck",
     description="What you use during the game.",
     category=category9)
@@ -195,7 +199,7 @@ session.add(categoryItem17)
 session.commit()
 
 categoryItem18 = Items(
-    user_id=1, 
+    user_id=1,
     name="Hockey Stick",
     description="Used to pass the puck around.",
     category=category9)
