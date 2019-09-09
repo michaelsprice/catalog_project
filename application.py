@@ -7,7 +7,7 @@ import httplib2
 from oauth2client.client import FlowExchangeError
 from oauth2client.client import flow_from_clientsecrets
 from flask import session as login_session
-from database_setup import Base, Categories, Items
+from database_setup import Base, Categories, Items, User
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from flask import Flask, render_template, url_for, request, redirect, \
@@ -114,6 +114,12 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    # See if user exists, if it doesn't, make a new user record
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
+
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -206,7 +212,8 @@ def createCategoryItem(categories_id):
         newItem = Items(
             name=request.form['name'],
             description=request.form['description'],
-            category_id=theCategory.id)
+            category_id=theCategory.id,
+            user_id=login_session['user_id'])
         session.add(newItem)
         if newItem.name == "" or newItem.description == "":
             flash("Name and Description must have values")
@@ -289,6 +296,28 @@ def showCategoryItemDescription(categories_id, item_id):
         category=category,
         items=itemToDelete)
 
+# Get user ID
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email = email).one()
+        return user.id 
+    except:
+        return None
+
+
+# Get user info
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id = user_id).one()
+    return user
+
+
+# Create a new user
+def createUser(login_session):
+    newUser = User(name = login_session['username'], email = login_session['email'], picture = login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email = login_session['email']).one()
+    return user.id 
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
