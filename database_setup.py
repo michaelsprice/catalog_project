@@ -12,7 +12,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
-    email = Column(Integer, primary_key=True)
+    email = Column(Integer, nullable=False)
     picture = Column(String(250))
 
 class Categories(Base):
