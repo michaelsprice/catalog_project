@@ -241,13 +241,7 @@ def createCategoryItem(categories_id):
             category_id=theCategory.id,
             user_id=login_session['user_id'])
         session.add(newItem)
-        if newItem.name == "" or newItem.description == "":
-            flash("Name and Description must have values")
-            return render_template(
-                'createCategoryItem.html',
-                categories_id=categories_id)
-        else:
-            session.commit()
+        session.commit()
         return redirect(
             url_for(
                 'showCategoryItem',
