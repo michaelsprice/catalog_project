@@ -113,6 +113,7 @@ def gconnect():
     login_session['username'] = data['name']
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
+    login_session['user_id'] = data['user_id']
 
     # See if user exists, if it doesn't, make a new user record
     user_id = getUserID(login_session['email'])
@@ -130,6 +131,39 @@ def gconnect():
     -webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     print ("done!")
     return output
+
+
+# Create a new user
+def createUser(login_session):
+    newUser = User(name=login_session['username'], email=login_session[
+                   'email'], picture=login_session['picture'])
+    session.add(newUser)
+    session.commit()
+    user = session.query(User).filter_by(email=login_session['email']).one()
+    return user.id
+
+
+
+# Get user info
+def getUserInfo(user_id):
+    user = session.query(User).filter_by(id=user_id).one()
+    return user
+
+
+# Get user ID
+def getUserID(email):
+    try:
+        user = session.query(User).filter_by(email=email).one()
+        return user.id
+    except:
+        return None
+
+
+
+
+
+
+
 
 # Disconnect the user by taking away the token and resetting their
 # login_session
@@ -188,14 +222,15 @@ def CategoryItemsJSON(categories_id):
 def showCategories():
     category = session.query(Categories)
     items = session.query(Items)
+    #theUser = session.query[User]
+
     return render_template('categories.html', category=category, items=items)
 
 # Show a category items
 @app.route('/category/<int:categories_id>/items')
 @app.route('/category/<int:categories_id>/')
 def showCategoryItem(categories_id):
-    categoryToShow = session.query(
-        Categories).filter_by(id=categories_id).one()
+    categoryToShow = session.query(Categories).filter_by(id=categories_id).one()
     itemsToShow = session.query(Items).filter_by(category_id=categories_id)
     return render_template(
         'showCategoryItem.html',
@@ -273,6 +308,8 @@ def deleteCategoryItem(categories_id, item_id):
     if 'username' not in login_session:
         return redirect('/login')
     itemToDelete = session.query(Items).filter_by(id=item_id).one()
+    if itemToDelete.user_id != login_session['user_id']:
+      return "<script>function myFunction() {alert('You are not authorized to delete this item. Please create your own item in order to delete.');}</script><body onload='myFunction()''>"
     if request.method == 'POST':
         session.delete(itemToDelete)
         session.commit()
@@ -296,28 +333,7 @@ def showCategoryItemDescription(categories_id, item_id):
         category=category,
         items=itemToDelete)
 
-# Get user ID
-def getUserID(email):
-    try:
-        user = session.query(User).filter_by(email = email).one()
-        return user.id 
-    except:
-        return None
 
-
-# Get user info
-def getUserInfo(user_id):
-    user = session.query(User).filter_by(id = user_id).one()
-    return user
-
-
-# Create a new user
-def createUser(login_session):
-    newUser = User(name = login_session['username'], email = login_session['email'], picture = login_session['picture'])
-    session.add(newUser)
-    session.commit()
-    user = session.query(User).filter_by(email = login_session['email']).one()
-    return user.id 
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'
