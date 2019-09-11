@@ -22,6 +22,9 @@
     category.id)}}'> Back to all items </a> 
 
 </br></br></br>
+<a class="box" href='{{url_for('CategorySingleItemJSON', categories_id = category.id, item_id = items.id)}}'> Click to see JSON endpoint for {{ items.name }}</a>
+
+</br></br></br>
 
     <a class="box" href='{{url_for('showLogin')}}'> Click to login </a> 
 

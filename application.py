@@ -208,12 +208,16 @@ def CategoryJSON():
 # JSON API's to view the catalog items information
 @app.route('/category/<int:categories_id>/items/JSON')
 def CategoryItemsJSON(categories_id):
-    jsonCategories = session.query(
-        Categories).filter_by(id=categories_id).one()
-    CategoryItems = session.query(Items).filter_by(
-        category_id=jsonCategories.id).all()
+    jsonCategories = session.query(Categories).filter_by(id=categories_id).one()
+    CategoryItems = session.query(Items).filter_by(category_id=jsonCategories.id).all()
     return jsonify(CategoryItems=[i.serialize for i in CategoryItems])
 
+# JSON API's to view a single items information
+@app.route('/category/<int:categories_id>/<int:item_id>/JSON')
+def CategorySingleItemJSON(categories_id, item_id):
+    jsonSingleItem = session.query(Categories).filter_by(id=categories_id).one()
+    CategoryItem = session.query(Items).filter_by(id=jsonSingleItem.id).one()
+    return jsonify(CategoryItem=[CategoryItem.serialize])
 
 # Show all categories
 @app.route('/')
