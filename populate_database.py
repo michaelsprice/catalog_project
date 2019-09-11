@@ -96,7 +96,7 @@ session.commit()
 categoryItem8 = Items(
     user_id=1,
     name="Frisbee",
-    description="The think you throw.",
+    description="The thing you throw.",
     category=category4)
 session.add(categoryItem8)
 session.commit()
